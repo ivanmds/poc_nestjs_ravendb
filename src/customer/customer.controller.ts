@@ -1,8 +1,6 @@
 import { Controller, Get, Param, Post, Body, NotFoundException, BadRequestException } from "@nestjs/common";
 import { CustomerService } from "./customer.service";
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateCustomerDto } from "./dto/create-customer.dto";
-
 
 @Controller("customers")
 export class CustomerController {
