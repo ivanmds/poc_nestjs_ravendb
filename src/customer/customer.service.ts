@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CustomerRepository } from "./customer.repository";
+import { Result } from "src/shared/result";
 
 @Injectable()
 export class CustomerService {
@@ -14,7 +15,22 @@ export class CustomerService {
         return await this.customerRepository.getByCompanyAndDocument(companyKey, documentNumber);
     }
 
-    async save(customer: Customer): Promise<void> {
-        await this.customerRepository.save(customer);
+    async save(customer: Customer): Promise<Result<Customer>> {
+        const result = new Result<Customer>();
+
+        const alreadyExist = await this.customerAlreadyExist(customer.companyKey, customer.documentNumber);
+        if(alreadyExist) {
+            result.isSuccess = false;
+            result.errors = ["Customer already exist"];
+        } else {
+            await this.customerRepository.save(customer);
+            result.data = customer;
+        }
+        
+        return result;
+    }
+
+    private async customerAlreadyExist(companyKey: string, documentNumber: string) : Promise<boolean> {
+        return await this.findByCompanyAndDocument(companyKey, documentNumber) != null;
     }
 }

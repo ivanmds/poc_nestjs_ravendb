@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, NotFoundException, BadRequestException } from "@nestjs/common";
 import { CustomerService } from "./customer.service";
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateCustomerDto } from "./dto/create-customer.dto";
@@ -14,7 +14,10 @@ export class CustomerController {
     @ApiResponse({ status: 404, description: 'Customers not found.'})
     @Get("company/:companyKey")
     async getByCompanyKey(@Param('companyKey') companyKey): Promise<Customer[]> {
-        return await this.customerService.findByCompany(companyKey);
+        const customers: Customer[] = await this.customerService.findByCompany(companyKey);
+        if(!customers) throw new NotFoundException("Customers not found");
+
+        return customers;
     }
 
     @ApiOperation({summary : 'Return customer'})
@@ -22,12 +25,20 @@ export class CustomerController {
     @ApiResponse({ status: 404, description: 'Customer not found.'})
     @Get("/company/:companyKey/document/:documentNumber")
     async find(@Param("companyKey") companyKey, @Param("documentNumber") documentNumber): Promise<Customer> {
-        return await this.customerService.findByCompanyAndDocument(companyKey, documentNumber);
+        const customer: Customer = await this.customerService.findByCompanyAndDocument(companyKey, documentNumber);
+        if(!customer) throw new NotFoundException("Customer not found");
+
+        return customer;
     }
 
     @Post()
     async create(@Body() customer: Customer) {
-        await this.customerService.save(customer);
+       var result = await this.customerService.save(customer);
+       if(result.isSuccess) {
+           return result.data;
+       } else {
+           throw new BadRequestException(result.errors);
+       }
     }
     
 }

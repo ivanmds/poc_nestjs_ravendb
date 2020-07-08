@@ -30,11 +30,12 @@ export class CustomerRepository extends BaseRepository<Customer> {
         return customer as Customer;
     }
 
-    async save(customer: Customer): Promise<void> {
+    async save(customer: Customer): Promise<Customer> {
 
         const session = this.store.openSession();
         await session.store(customer);
         await session.saveChanges();
+        return customer;
     }
 }
 
