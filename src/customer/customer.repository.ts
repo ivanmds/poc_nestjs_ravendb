@@ -5,14 +5,14 @@ import { BaseRepository } from "src/shared/base.repository";
 export class CustomerRepository extends BaseRepository<Customer> {
 
     constructor() {
-        super(collectionNameCustomer);
+        super(customerCollectionName);
     }
 
     async getByCompany(companyKey: string): Promise<Customer[]> {
 
         const session = this.store.openSession();
 
-        const customers = await session.query({ collection: collectionNameCustomer })
+        const customers = await session.query({ collection: customerCollectionName })
             .whereEquals("companyKey", companyKey).all();
 
         return customers as Customer[];
@@ -22,7 +22,7 @@ export class CustomerRepository extends BaseRepository<Customer> {
 
         const session = this.store.openSession();
 
-        const customer = await session.query({ collection: collectionNameCustomer })
+        const customer = await session.query({ collection: customerCollectionName })
             .whereEquals("companyKey", companyKey)
             .whereEquals("documentNumber", documentNumber)
             .firstOrNull();
@@ -39,4 +39,4 @@ export class CustomerRepository extends BaseRepository<Customer> {
     }
 }
 
-export const collectionNameCustomer = "Customers";
+export const customerCollectionName = "Customers";
