@@ -10,3 +10,17 @@ services:
     ports:
       - "8080:8080"
       - "38888:38888"
+
+  elk:
+    image: sebp/elk
+    ports:
+      - 5601:5601
+      - 9200:9200
+      - 5044:5044
+    
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    environment: 
+      - ALLOW_EMPTY_PASSWORD=yes
