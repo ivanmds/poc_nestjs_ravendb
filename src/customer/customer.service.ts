@@ -8,11 +8,11 @@ export class CustomerService {
     constructor(private readonly customerRepository: CustomerRepository) { }
 
     async findByCompany(companyKey: string): Promise<Customer[]> {
-        return await this.customerRepository.getByCompany(companyKey);
+        return await this.customerRepository.findByCompany(companyKey);
     }
 
     async findByCompanyAndDocument(companyKey: string, documentNumber: string): Promise<Customer> {
-        return await this.customerRepository.getByCompanyAndDocument(companyKey, documentNumber);
+        return await this.customerRepository.findByCompanyAndDocument(companyKey, documentNumber);
     }
 
     async save(customer: Customer): Promise<Result<Customer>> {

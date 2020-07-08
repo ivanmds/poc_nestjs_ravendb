@@ -8,7 +8,7 @@ export class CustomerRepository extends BaseRepository<Customer> {
         super(customerCollectionName);
     }
 
-    async getByCompany(companyKey: string): Promise<Customer[]> {
+    async findByCompany(companyKey: string): Promise<Customer[]> {
 
         const session = this.store.openSession();
 
@@ -18,7 +18,7 @@ export class CustomerRepository extends BaseRepository<Customer> {
         return customers as Customer[];
     }
 
-    async getByCompanyAndDocument(companyKey: string, documentNumber: string): Promise<Customer> {
+    async findByCompanyAndDocument(companyKey: string, documentNumber: string): Promise<Customer> {
 
         const session = this.store.openSession();
 
