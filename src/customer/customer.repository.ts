@@ -1,22 +1,18 @@
 import { Injectable } from "@nestjs/common";
-import { DocumentStore } from 'ravendb';
+import { BaseRepository } from "src/shared/base.repository";
 
 @Injectable()
-export class CustomerRepository {
-
-    private readonly store: DocumentStore;
+export class CustomerRepository extends BaseRepository<Customer> {
 
     constructor() {
-        this.store = new DocumentStore("http://localhost:8080", "customerDb");
-        this.store.conventions.findCollectionNameForObjectLiteral = CreateCustomerDto => "customers";
-        this.store.initialize();   
+        super(collectionNameCustomer);
     }
 
     async getByCompany(companyKey: string): Promise<Customer[]> {
 
         const session = this.store.openSession();
 
-        const customers = await session.query({ collection: "Customers" })
+        const customers = await session.query({ collection: collectionNameCustomer })
             .whereEquals("companyKey", companyKey).all();
 
         return customers as Customer[];
@@ -26,7 +22,7 @@ export class CustomerRepository {
 
         const session = this.store.openSession();
 
-        const customer = await session.query({ collection: "Customers" })
+        const customer = await session.query({ collection: collectionNameCustomer })
             .whereEquals("companyKey", companyKey)
             .whereEquals("documentNumber", documentNumber)
             .firstOrNull();
@@ -41,3 +37,5 @@ export class CustomerRepository {
         await session.saveChanges();
     }
 }
+
+export const collectionNameCustomer = "Customers";
