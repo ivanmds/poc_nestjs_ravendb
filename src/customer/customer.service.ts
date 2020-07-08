@@ -6,12 +6,15 @@ export class CustomerService {
 
     constructor(private readonly customerRepository: CustomerRepository) { }
 
-    async find(companyKey: string, documentNumber: string): Promise<Customer> {
-        return await this.customerRepository.Get(companyKey, documentNumber);
+    async findByCompany(companyKey: string): Promise<Customer[]> {
+        return await this.customerRepository.getByCompany(companyKey);
+    }
+
+    async findByCompanyAndDocument(companyKey: string, documentNumber: string): Promise<Customer> {
+        return await this.customerRepository.getByCompanyAndDocument(companyKey, documentNumber);
     }
 
     async save(customer: Customer): Promise<void> {
-        await this.customerRepository.Save(customer);
+        await this.customerRepository.save(customer);
     }
-
 }

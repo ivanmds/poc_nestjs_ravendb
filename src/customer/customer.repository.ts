@@ -12,7 +12,17 @@ export class CustomerRepository {
         this.store.initialize();   
     }
 
-    async Get(companyKey: string, documentNumber: string): Promise<Customer> {
+    async getByCompany(companyKey: string): Promise<Customer[]> {
+
+        const session = this.store.openSession();
+
+        const customers = await session.query({ collection: "Customers" })
+            .whereEquals("companyKey", companyKey).all();
+
+        return customers as Customer[];
+    }
+
+    async getByCompanyAndDocument(companyKey: string, documentNumber: string): Promise<Customer> {
 
         const session = this.store.openSession();
 
@@ -24,7 +34,7 @@ export class CustomerRepository {
         return customer as Customer;
     }
 
-    async Save(customer: Customer): Promise<void> {
+    async save(customer: Customer): Promise<void> {
 
         const session = this.store.openSession();
         await session.store(customer);
