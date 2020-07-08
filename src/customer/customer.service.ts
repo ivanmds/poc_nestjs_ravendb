@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { CustomerRepository } from "./customer.repository";
-import { CreateCustomerDto } from "./dto/create-customer.dto";
 
 @Injectable()
 export class CustomerService {
@@ -11,7 +10,7 @@ export class CustomerService {
         return await this.customerRepository.Get(companyKey, documentNumber);
     }
 
-    async save(customer: CreateCustomerDto): Promise<void> {
+    async save(customer: Customer): Promise<void> {
         await this.customerRepository.Save(customer);
     }
 

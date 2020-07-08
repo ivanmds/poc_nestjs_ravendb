@@ -18,7 +18,7 @@ export class CustomerController {
     }
 
     @Post()
-    async create(@Body() customer: CreateCustomerDto) {
+    async create(@Body() customer: Customer) {
         await this.customerService.save(customer);
     }
 }
