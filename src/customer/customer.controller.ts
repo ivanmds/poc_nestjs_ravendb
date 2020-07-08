@@ -13,9 +13,9 @@ export class CustomerController {
     @Get("company/:companyKey")
     async getByCompanyKey(@Param('companyKey') companyKey): Promise<Customer[]> {
         const customers: Customer[] = await this.customerService.findByCompany(companyKey);
-        if(!customers) throw new NotFoundException("Customers not found");
-
-        return customers;
+        
+        if(customers?.length > 0) return customers;
+        throw new NotFoundException("Customers not found");
     }
 
     @ApiOperation({summary : 'Return customer'})
