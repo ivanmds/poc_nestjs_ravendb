@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { BaseRepository } from "src/shared/base.repository";
+import { Customer } from "./customer.entities";
 
 @Injectable()
 export class CustomerRepository extends BaseRepository<Customer> {
@@ -19,21 +20,15 @@ export class CustomerRepository extends BaseRepository<Customer> {
     }
 
     async findByCompanyAndDocument(companyKey: string, documentNumber: string): Promise<Customer> {
-
         const session = this.store.openSession();
-
-        const customer = await session.query({ collection: customerCollectionName })
-            .whereEquals("companyKey", companyKey)
-            .whereEquals("documentNumber", documentNumber)
-            .firstOrNull();
-
-        return customer as Customer;
+        const id = Customer.getId(companyKey, documentNumber);
+        return await session.load(id) as Customer;
     }
 
     async save(customer: Customer): Promise<Customer> {
-
         const session = this.store.openSession();
-        await session.store(customer);
+        const id = Customer.getId(customer.companyKey, customer.documentNumber);
+        await session.store(customer, id);
         await session.saveChanges();
         return customer;
     }

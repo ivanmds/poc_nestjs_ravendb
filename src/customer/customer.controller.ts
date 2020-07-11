@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Post, Body, NotFoundException, BadRequestException } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, NotFoundException, BadRequestException, Put } from "@nestjs/common";
 import { CustomerService } from "./customer.service";
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Customer } from "./customer.entities";
 
 @Controller("customers")
 export class CustomerController {
@@ -31,12 +32,25 @@ export class CustomerController {
 
     @Post()
     async create(@Body() customer: Customer) {
-       var result = await this.customerService.save(customer);
+       var result = await this.customerService.create(customer);
        if(result.isSuccess) {
            return result.data;
        } else {
            throw new BadRequestException(result.errors);
        }
+    }
+
+    @Put("/company/:companyKey/document/:documentNumber")
+    async update(@Param("companyKey") companyKey, @Param("documentNumber") documentNumber, @Body() customer: Customer) {
+        customer.companyKey = companyKey;
+        customer.documentNumber = documentNumber;
+
+        var result = await this.customerService.update(customer);
+        if(result.isSuccess) {
+            return result.data;
+        } else {
+            throw new BadRequestException(result.errors);
+        }
     }
     
 }

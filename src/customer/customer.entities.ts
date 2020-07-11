@@ -1,4 +1,4 @@
-interface Customer {
+export class Customer {
     companyKey: string;
     documentNumber: string;
     name: string;
@@ -6,9 +6,14 @@ interface Customer {
     email: string;
     birthDate: Date;
     address: Address;
+
+    static getId(companyKey: string, documentNumber: string): string{
+        return `${companyKey}#${documentNumber}`;
+    }
+
 }
 
-interface Address {
+export class Address {
     street: string;
     number: string;
     state: string;
