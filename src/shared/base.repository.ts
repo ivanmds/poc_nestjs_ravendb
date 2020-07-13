@@ -1,5 +1,5 @@
 import DocumentStore from "ravendb";
-import { environment } from "config/environment";
+import { environment } from "src/config/environment";
 
 export class BaseRepository<TEntity> {
     protected readonly store: DocumentStore;

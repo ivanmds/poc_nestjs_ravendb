@@ -1,5 +1,5 @@
 import { RedisClient } from "redis";
-import { environment } from "config/environment";
+import { environment } from "src/config/environment";
 
 export abstract class BaseCache<TValue> {
 

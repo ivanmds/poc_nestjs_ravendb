@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { environment } from 'config/environment';
-import { DatabaseBootstrap } from 'config/databaseBootstrap';
+import { environment } from 'src/config/environment';
+import { DatabaseBootstrap } from 'src/config/databaseBootstrap';
 
 async function bootstrap() {
   const database = new DatabaseBootstrap();

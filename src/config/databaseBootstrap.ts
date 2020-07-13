@@ -1,5 +1,6 @@
 import { DocumentStore, GetDatabaseNamesOperation, CreateDatabaseOperation } from "ravendb";
 import { environment } from "./environment";
+import { CustomerWithDeviceIndex } from "./Indexs/customer_with_device.index";
 
 export class DatabaseBootstrap {
 
@@ -18,5 +19,7 @@ export class DatabaseBootstrap {
             const createDatabase = new CreateDatabaseOperation({ databaseName: environment.ravendb.databaseName });
             await this.store.maintenance.server.send(createDatabase);
         }
+
+        await new CustomerWithDeviceIndex().execute(this.store);
     }
 }

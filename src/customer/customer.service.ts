@@ -3,6 +3,7 @@ import { CustomerRepository } from "./customer.repository";
 import { Result } from "src/shared/result";
 import { Customer } from "./customer.entities";
 import { CustomerCache } from "./customer.cache";
+import { CustomerWithDeviceResult } from "src/config/Indexs/customer_with_device.index";
 
 @Injectable()
 export class CustomerService {
@@ -56,6 +57,10 @@ export class CustomerService {
         }
 
         return result;
+    }
+
+    async findWidhDevice(companyKey: string, documentNumber: string): Promise<CustomerWithDeviceResult> {
+        return await this.customerRepository.findWidhDevice(companyKey, documentNumber);
     }
 
     private async customerAlreadyExist(companyKey: string, documentNumber: string): Promise<boolean> {
