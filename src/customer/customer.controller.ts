@@ -31,7 +31,7 @@ export class CustomerController {
         return customer;
     }
 
-    @ApiOperation({summary : 'Return customer'})
+    @ApiOperation({summary : 'Return customer with device'})
     @ApiResponse({ status: 200, description: 'Return customer.'})
     @ApiResponse({ status: 404, description: 'Customer not found.'})
     @Get("/company/:companyKey/document/:documentNumber/withDevice")

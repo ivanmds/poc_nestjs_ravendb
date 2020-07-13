@@ -23,7 +23,7 @@ export class CustomerRepository extends BaseRepository<Customer> {
     async findWidhDevice(companyKey: string, documentNumber: string): Promise<CustomerWithDeviceResult> {
         const session = this.store.openSession();
         const id = Customer.getId(companyKey, documentNumber);
-        const result = await session.query({ indexName: nameCustomerWithDeviceIndex })
+        const result = await session.query({ indexName: "CustomerWithDeviceIndex" })
             .whereEquals("companyKey", companyKey)
             .whereEquals("documentNumber", documentNumber)
             .firstOrNull();

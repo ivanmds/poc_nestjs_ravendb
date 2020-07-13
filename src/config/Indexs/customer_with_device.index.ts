@@ -61,6 +61,6 @@ export class CustomerWithDeviceResult {
     companyKey: string;
     documentNumber: string;
     name: string;
-    deviceHash: string;
+    hash: string;
     pushToken: string;
 }
